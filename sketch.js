@@ -2,7 +2,7 @@ var dog,database,foods,bow,c=0,t=0,gs=0,ls=0;j=0;
 var dg,hdg,sdg,s1,s2=0,s3=0,s4=0,ml,tb,bl,kit;
 var ltfed,tri,time,cur,ch,sck,bh,ss=0,yk=0;
 var b1,b2,n1,nm,gn,grd,grd1,bd,ws,rr,zz,sp,spi,bb,shr,l1=0;
-var t2=0,xc=185,yc=275,si,shri,wti;
+var t2=0,xc=185,yc=275,si,shri,wti,et;
 
 function preload(){
    hdg=loadImage("happydog.png");
@@ -65,7 +65,22 @@ function setup() {
   b1.mousePressed(feeddog);
   b2.mousePressed(gt);
   n1.mousePressed(cng);
+  et=createButton("state");
+  et.position(500+350,20);
+  et.hide();
+  et.mousePressed(function(){
+    if(c==0&&ltfed!=undefined){
+      if(ltfed>=cur-5){
+      var tt=ltfed;
+    if(tt-1<=cur-4){tt=ltfed+3;}
+    else{tt=ltfed-1;}
+    database.ref('/').update({
+      feedTime:tt}) 
+      }
+    }
+  });
 }
+
   {
 function readstate(data){
   sck=data.val();
@@ -92,7 +107,10 @@ function update(x){
 
 function draw() {
   cur=hour();
-  if(sck!==undefined){nm.show();n1.show();}
+  if(sck!==undefined){
+    nm.show();
+    n1.show();
+  }
   else{
     background(255,255,255);
     nm.hide();
@@ -117,7 +135,9 @@ function draw() {
     }else if(cur>ltfed+2&&cur<=ltfed+4){
       update("washroom");
     }else{si.removeSprites();sp.visible=false;shr.visible=false;update("hungry");}
+    et.show();
   }
+  et.html(sck);
   if(sck!=="hungry"){      
     bow.visible=false;
     if(tri!=undefined){tri.van(false);
